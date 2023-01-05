@@ -5,7 +5,7 @@ import marketplaceAbi from '../contract/Helpa.abi.json'
 import erc20Abi from '../contract/erc20.abi.json'
 
 const ERC20_DECIMALS = 18
-const MPContractAddress = '0xB446BD593275E31fD7D66f7395662a765bB3A3F9'
+const MPContractAddress = '0x704465f9993c2F47650212fb7DC84BE00b9f7a36'
 const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
 
 let kit
@@ -16,7 +16,6 @@ const connectCeloWallet = async function () {
   if (window.celo) {
     notification('⚠️ Please approve this DApp to use it.')
     try {
-      debugger
       await window.celo.enable()
       notificationOff()
 
@@ -53,24 +52,17 @@ const getBalance = async function () {
 const getVendors = async function() {
   const _vendorLength = await contract.methods.getVendorCount().call()
   const _vendors = []
+
   for (let i = 0; i < _vendorLength; i++) {
-    let _vendor = new Promise(async (resolve, reject) => {
+    let _vendor = new Promise(async (resolve) => {
       let p = await contract.methods.getVendors(i).call()
-      // debugger
-      resolve({
-        index: i,
-        owner: p[0],
-        name: p[1],
-        image: p[2],
-        description: p[3],
-        location: p[4],
-        price: new BigNumber(p[5]),
-        sold: p[6],
-      })
+      resolve(p)
     })
     _vendors.push(_vendor)
   }
+
   vendors = await Promise.all(_vendors)
+  console.log(vendors)
   renderVendors()
 }
 
@@ -87,33 +79,33 @@ function renderVendors() {
 function vendorTemplate(_vendor) {
   return `
     <div class="card mb-4">
-      <img class="card-img-top" src="${_vendor.image}" alt="...">
+      <img class="card-img-top" src="${_vendor.filePath}" alt="...">
       <div class="position-absolute top-0 end-0 bg-warning mt-4 px-2 py-1 rounded-start">
-        ${_vendor.sold} Sold
+        ${_vendor.transCount} Transactions
       </div>
       <div class="card-body text-left p-4 position-relative">
         <div class="translate-middle-y position-absolute top-0">
-        ${identiconTemplate(_vendor.owner)}
+        ${identiconTemplate(_vendor.vendorAddress)}
         </div>
-        <h2 class="card-title fs-4 fw-bold mt-2">${_vendor.name}</h2>
+        <h2 class="card-title fs-4 fw-bold mt-2">${_vendor.businessName}</h2>
         <p class="card-text mb-4" style="min-height: 82px">
           ${_vendor.description}             
         </p>
-        <p class="card-text mt-4">
-          <i class="bi bi-geo-alt-fill"></i>
-          <span>${_vendor.location}</span>
-        </p>
+      
         <div class="d-grid gap-2">
           <a class="btn btn-lg btn-outline-dark buyBtn fs-6 p-3" id=${
     _vendor.index
   }>
-            Buy for ${_vendor.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
+            
+            Hire for ${new BigNumber(_vendor.price).shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
           </a>
         </div>
       </div>
     </div>
   `
 }
+
+// Hire for ${_vendor.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
 
 function identiconTemplate(_address) {
   const icon = blockies
@@ -146,33 +138,33 @@ function notificationOff() {
 window.addEventListener('load', async () => {
   notification('⌛ Loading...')
   await connectCeloWallet()
-  // await getBalance()
+  await getBalance()
   await getVendors()
   notificationOff()
 });
 
 document
-  .querySelector('#newProductBtn')
+  .querySelector('#createAccountBtn')
   .addEventListener('click', async (e) => {
     const params = [
-      document.getElementById('newProductName').value,
-      document.getElementById('newImgUrl').value,
-      document.getElementById('newProductDescription').value,
-      document.getElementById('newLocation').value,
-      new BigNumber(document.getElementById('newPrice').value)
+      document.getElementById('businessName').value,
+      document.getElementById('profession').value,
+      document.getElementById('filePath').value,
+      document.getElementById('description').value,
+      new BigNumber(document.getElementById('price').value)
         .shiftedBy(ERC20_DECIMALS)
         .toString()
     ]
     notification(`⌛ Adding '${params[0]}'...`)
     try {
-      const result = await contract.methods
-        .writeProduct(...params)
+      await contract.methods
+        .createVendor(...params)
         .send({ from: kit.defaultAccount })
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
-    notification(`🎉 You successfully added '${params[0]}'.`)
-    getProducts()
+    notification(`🎉 Account successfully created '${params[0]}'.`)
+    getVendors()
   })
 
 document.querySelector('#marketplace').addEventListener('click', async (e) => {

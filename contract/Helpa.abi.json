@@ -49,12 +49,7 @@
       },
       {
         "internalType": "string",
-        "name": "_UDName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_CID",
+        "name": "_filePath",
         "type": "string"
       },
       {
@@ -156,12 +151,7 @@
       },
       {
         "internalType": "string",
-        "name": "CID",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "UDName",
+        "name": "filePath",
         "type": "string"
       }
     ],
@@ -255,12 +245,7 @@
       },
       {
         "internalType": "string",
-        "name": "UDName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "CID",
+        "name": "filePath",
         "type": "string"
       },
       {

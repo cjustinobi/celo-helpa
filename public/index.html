@@ -80,13 +80,13 @@
   class="modal fade"
   id="addModal"
   tabindex="-1"
-  aria-labelledby="newProductModalLabel"
+  aria-labelledby="newVendorModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newProductModalLabel">New Product</h5>
+        <h5 class="modal-title" id="newVendorModalLabel">New Vendor</h5>
         <button
           type="button"
           class="btn-close"
@@ -100,15 +100,23 @@
             <div class="col">
               <input
                 type="text"
-                id="newProductName"
+                id="businessName"
                 class="form-control mb-2"
-                placeholder="Enter name of product"
+                placeholder="Enter name of business"
               />
             </div>
             <div class="col">
               <input
                 type="text"
-                id="newImgUrl"
+                id="profession"
+                class="form-control mb-2"
+                placeholder="Profession"
+              />
+            </div>
+            <div class="col">
+              <input
+                type="text"
+                id="filePath"
                 class="form-control mb-2"
                 placeholder="Enter image url"
               />
@@ -116,23 +124,16 @@
             <div class="col">
               <input
                 type="text"
-                id="newProductDescription"
+                id="description"
                 class="form-control mb-2"
-                placeholder="Enter product description"
+                placeholder="Enter Business description"
               />
             </div>
+
             <div class="col">
               <input
                 type="text"
-                id="newLocation"
-                class="form-control mb-2"
-                placeholder="Enter location"
-              />
-            </div>
-            <div class="col">
-              <input
-                type="text"
-                id="newPrice"
+                id="price"
                 class="form-control mb-2"
                 placeholder="Enter price"
               />
@@ -152,9 +153,9 @@
           type="button"
           class="btn btn-dark"
           data-bs-dismiss="modal"
-          id="newProductBtn"
+          id="createAccountBtn"
         >
-          Add product
+          Create Account
         </button>
       </div>
     </div>

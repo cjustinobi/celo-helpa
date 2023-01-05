@@ -19,8 +19,7 @@ contract Helpa {
     address payable vendorAddress;
     string businessName;
     string profession;
-    string UDName;
-    string CID;
+    string filePath;
     string description;
     uint256 price;
     uint256 totalAmount;
@@ -60,8 +59,7 @@ contract Helpa {
   function createVendor(
     string memory _businessName,
     string memory _profession,
-    string memory _UDName,
-    string memory _CID,
+    string memory _filePath,
     string memory _description,
     uint256 _price
   ) public {
@@ -76,8 +74,7 @@ contract Helpa {
     vendor.vendorAddress = payable(msg.sender);
     vendor.businessName = _businessName;
     vendor.profession = _profession;
-    vendor.UDName = _UDName;
-    vendor.CID = _CID;
+    vendor.filePath = _filePath;
     vendor.description = _description;
     vendor.price = _price;
     vendor.totalAmount = totalAmount;
@@ -167,8 +164,7 @@ contract Helpa {
   function getVendors(uint256 _index) public view returns (
     address vendorAddress,
     string memory businessName,
-    string memory UDName,
-    string memory CID,
+    string memory filePath,
     string memory description,
     string memory profession,
     uint256 price,
@@ -181,8 +177,7 @@ contract Helpa {
     return (
     vendor.vendorAddress,
     vendor.businessName,
-    vendor.UDName,
-    vendor.CID,
+    vendor.filePath,
     vendor.description,
     vendor.profession,
     vendor.price,
@@ -201,8 +196,7 @@ contract Helpa {
     uint256 dateCreated,
     uint256 dateCompleted,
     uint256 dateReviewing,
-    string memory CID,
-    string memory UDName
+    string memory filePath
   ) {
 
     Transaction storage transaction = customerTransactions[msg.sender][_index];
@@ -218,8 +212,7 @@ contract Helpa {
     transaction.dateCreated,
     transaction.dateCompleted,
     transaction.dateReviewing,
-    _vendor.CID,
-    _vendor.UDName
+    _vendor.filePath
     );
   }
 
@@ -255,15 +248,3 @@ contract Helpa {
     return vendorCount;
   }
 }
-
-
-// owner 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
-
-// customer 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2
-// 0xdD870fA1b7C4700F2BD7f44238821C26f7392148
-
-// Vendor 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db
-// 0x583031D1113aD414F02576BD6afaBfb302140225
-
-
-// firefox   0x01a3f5cB1BCf260d12A2466cE075398aAB8cA610
