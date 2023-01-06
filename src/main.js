@@ -93,7 +93,7 @@ function vendorTemplate(_vendor) {
         </p>
       
         <div class="d-grid gap-2">
-          <a class="btn btn-lg btn-outline-dark buyBtn fs-6 p-3" id=${
+          <a class="btn btn-lg btn-outline-dark hireBtn fs-6 p-3" id=${
     _vendor.index
   }>
             
@@ -104,8 +104,6 @@ function vendorTemplate(_vendor) {
     </div>
   `
 }
-
-// Hire for ${_vendor.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
 
 function identiconTemplate(_address) {
   const icon = blockies
@@ -168,7 +166,7 @@ document
   })
 
 document.querySelector('#marketplace').addEventListener('click', async (e) => {
-  if (e.target.className.includes('buyBtn')) {
+  if (e.target.className.includes('hireBtn')) {
     const index = e.target.id
     notification('⌛ Waiting for payment approval...')
     try {
