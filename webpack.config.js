@@ -24,6 +24,7 @@ module.exports = {
     aggregateTimeout: 300, // After seeing an edit, wait .3 seconds to recompile
     poll: 500 // Check for edits every 5 seconds
   },
+  stats: { children: false },
   plugins: [
     new FriendlyErrorsWebpackPlugin(),
     new webpack.ProgressPlugin(),
