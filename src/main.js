@@ -1,38 +1,58 @@
-import Web3 from 'web3'
-import { newKitFromWeb3 } from '@celo/contractkit'
+
 import BigNumber from 'bignumber.js'
-import marketplaceAbi from '../contract/Helpa.abi.json'
 import erc20Abi from '../contract/erc20.abi.json'
+import './navigation'
+import './transactions'
 
-const ERC20_DECIMALS = 18
-const MPContractAddress = '0x704465f9993c2F47650212fb7DC84BE00b9f7a36'
-const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
+import {
+  ERC20_DECIMALS,
+  MPContractAddress,
+  cUSDContractAddress,
+  connectCeloWallet,
+  notification,
+  notificationOff,
+  kit,
+  contract
+} from './common'
 
-let kit
-let contract
+// const ERC20_DECIMALS = 18
+// const MPContractAddress = '0x704465f9993c2F47650212fb7DC84BE00b9f7a36'
+// const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
+
+// let kit
+// let contract
 let vendors = []
 
-const connectCeloWallet = async function () {
-  if (window.celo) {
-    notification('⚠️ Please approve this DApp to use it.')
-    try {
-      await window.celo.enable()
-      notificationOff()
+// const connectCeloWallet = async function () {
+//   if (window.celo) {
+//     notification('⚠️ Please approve this DApp to use it.')
+//     try {
+//       await window.celo.enable()
+//       notificationOff()
+//
+//       const web3 = new Web3(window.celo)
+//       kit = newKitFromWeb3(web3)
+//
+//       const accounts = await kit.web3.eth.getAccounts()
+//       kit.defaultAccount = accounts[0]
+//
+//       contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
+//     } catch (error) {
+//       notification(`⚠️ ${error}.`)
+//     }
+//   } else {
+//     notification('⚠️ Please install the CeloExtensionWallet.')
+//   }
+// }
 
-      const web3 = new Web3(window.celo)
-      kit = newKitFromWeb3(web3)
 
-      const accounts = await kit.web3.eth.getAccounts()
-      kit.defaultAccount = accounts[0]
+const test = async function() {
 
-      contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
-    } catch (error) {
-      notification(`⚠️ ${error}.`)
-    }
-  } else {
-    notification('⚠️ Please install the CeloExtensionWallet.')
-  }
+  let p = await contract.methods.getBal().call()
+  console.log('jjj ' + p)
+
 }
+
 
 async function approve(_price) {
   const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
@@ -56,6 +76,8 @@ const getVendors = async function() {
   for (let i = 0; i < _vendorLength; i++) {
     let _vendor = new Promise(async (resolve) => {
       let p = await contract.methods.getVendors(i).call()
+      p.index = i
+
       resolve(p)
     })
     _vendors.push(_vendor)
@@ -124,20 +146,22 @@ function identiconTemplate(_address) {
   `
 }
 
-function notification(_text) {
-  document.querySelector('.alert').style.display = 'block'
-  document.querySelector('#notification').textContent = _text
-}
-
-function notificationOff() {
-  document.querySelector('.alert').style.display = 'none'
-}
+// function notification(_text) {
+//   document.querySelector('.alert').style.display = 'block'
+//   document.querySelector('#notification').textContent = _text
+// }
+//
+// function notificationOff() {
+//   document.querySelector('.alert').style.display = 'none'
+// }
 
 window.addEventListener('load', async () => {
   notification('⌛ Loading...')
   await connectCeloWallet()
   await getBalance()
   await getVendors()
+  await test()
+
   notificationOff()
 });
 
@@ -168,19 +192,23 @@ document
 document.querySelector('#marketplace').addEventListener('click', async (e) => {
   if (e.target.className.includes('hireBtn')) {
     const index = e.target.id
-    notification('⌛ Waiting for payment approval...')
+    // notification('⌛ Waiting for payment approval...')
+    // try {
+    //   await approve(products[index].price)
+    // } catch (error) {
+    //   notification(`⚠️ ${error}.`)
+    // }
+    // return console.log(index)
+    notification(`⌛ Awaiting payment for '${vendors[index].businessName}'...`)
     try {
-      await approve(products[index].price)
-    } catch (error) {
-      notification(`⚠️ ${error}.`)
-    }
-    notification(`⌛ Awaiting payment for '${products[index].name}'...`)
-    try {
+      let cUSDcontract = await kit.contracts.getStableToken();
       const result = await contract.methods
-        .buyProduct(index)
-        .send({ from: kit.defaultAccount })
-      notification(`🎉 You successfully bought '${products[index].name}'.`)
-      getProducts()
+        .createTransaction(index, vendors[index].vendorAddress)
+        .send({ from: kit.defaultAccount, value: vendors[index].price, feeCurrency: cUSDcontract.address })
+      notification(`🎉 You successfully hired '${vendors[index].businessName}'.`)
+
+      console.log(result)
+      getVendors()
       getBalance()
     } catch (error) {
       notification(`⚠️ ${error}.`)

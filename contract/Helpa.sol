@@ -186,7 +186,7 @@ contract Helpa {
     );
   }
 
-  function getTransactions (uint256 _index) public view returns (
+  function getTransactions (uint256 _index, address _customerAddress) public view returns (
     uint256 transactionIndex,
     uint256 vendorIndex,
     address vendor,
@@ -199,7 +199,7 @@ contract Helpa {
     string memory filePath
   ) {
 
-    Transaction storage transaction = customerTransactions[msg.sender][_index];
+    Transaction storage transaction = customerTransactions[_customerAddress][_index];
     Vendor storage _vendor = vendors[transaction.vendorIndex];
 
     return (

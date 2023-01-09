@@ -1,21 +1,23 @@
-const path = require("path");
-const webpack = require("webpack");
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  devtool: "cheap-module-eval-source-map",
+  mode: 'development',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
-    main: path.resolve(process.cwd(), "src", "main.js")
+    main: path.resolve(process.cwd(), 'src', 'main.js'),
+    jobs: path.resolve(process.cwd(), 'src', 'jobs.js'),
+    transactions: path.resolve(process.cwd(), 'src', 'transactions.js'),
   },
   output: {
-    path: path.resolve(process.cwd(), "docs"),
-    publicPath: ""
+    path: path.resolve(process.cwd(), 'docs'),
+    publicPath: ''
   },
 	node: {
-   fs: "empty",
-	 net: "empty"
+   fs: 'empty',
+	 net: 'empty'
 	},
   watchOptions: {
     // ignored: /node_modules/,
@@ -26,7 +28,19 @@ module.exports = {
     new FriendlyErrorsWebpackPlugin(),
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), "public", "index.html")
+      template: path.resolve(process.cwd(), 'public', 'index.html'),
+      filename: 'index.html',
+      chunks: ['main']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(process.cwd(), 'public', 'my-jobs.html'),
+      filename: 'my-jobs.html',
+      chunks: ['jobs']
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(process.cwd(), 'public', 'my-transactions.html'),
+      filename: 'my-transactions.html',
+      chunks: ['transactions']
     })
   ]
 }

@@ -1,0 +1,26 @@
+const links = ['jobs', 'transactions']
+
+function setNavigationElement() {
+  links.forEach((item) => {
+    const a = document.createElement('p')
+    a.id = item
+    a.innerText = (`my-${item}`).toUpperCase()
+    document.getElementById('links').appendChild(a)
+  })
+}
+setNavigationElement()
+
+window.addEventListener('load', async () => {
+
+  document.getElementById('jobs').addEventListener('click', () => {
+    window.location = 'my-jobs.html'
+  })
+
+  document.getElementById('transactions').addEventListener('click', () => {
+    window.location = 'my-transactions.html'
+  })
+
+  document.getElementById('logo').addEventListener('click', () => {
+    window.location = '/'
+  })
+})
