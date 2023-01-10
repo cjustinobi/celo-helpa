@@ -21,6 +21,6 @@ window.addEventListener('load', async () => {
   })
 
   document.getElementById('logo').addEventListener('click', () => {
-    window.location = '/'
+    window.location = 'index.html'
   })
 })
