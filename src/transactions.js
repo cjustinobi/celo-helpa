@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import './navigation'
 
 import {
@@ -18,11 +19,11 @@ const getTransactions = async function() {
 
   const _transactionLength = await contract.methods.getTransactionCount().call()
   const _transactions = []
-console.log('aaaaa ', _transactionLength)
+// console.log('aaaaa ', _transactionLength)
   for (let i = 0; i < _transactionLength; i++) {
 
     let _transaction = new Promise(async (resolve) => {
-      let p = await contract.methods.getTransactions(i).send({ from: kit.defaultAccount })
+      let p = await contract.methods.getTransactions(i, kit.defaultAccount).call()
       p.index = i
 
       resolve(p)
@@ -31,17 +32,17 @@ console.log('aaaaa ', _transactionLength)
   }
 
   transactions = await Promise.all(_transactions)
-  console.log(transactions)
+  // console.log('xxx ', transactions)
   renderTransactions()
 }
 
 function renderTransactions() {
-  document.getElementById('marketplace').innerHTML = ''
+  document.getElementById('transactions').innerHTML = ''
   transactions.forEach((_transaction) => {
     const newDiv = document.createElement('div')
     newDiv.className = 'col-md-4'
     newDiv.innerHTML = transactionTemplate(_transaction)
-    document.getElementById('marketplace').appendChild(newDiv)
+    document.getElementById('transactions').appendChild(newDiv)
   })
 }
 
@@ -53,9 +54,6 @@ function transactionTemplate(_transaction) {
         ${_transaction.transCount} Transactions
       </div>
       <div class="card-body text-left p-4 position-relative">
-        <div class="translate-middle-y position-absolute top-0">
-        ${identiconTemplate(_transaction.vendorAddress)}
-        </div>
         <h2 class="card-title fs-4 fw-bold mt-2">${_transaction.businessName}</h2>
         <p class="card-text mb-4" style="min-height: 82px">
           ${_transaction.description}             
@@ -66,7 +64,7 @@ function transactionTemplate(_transaction) {
     _transaction.index
   }>
             
-            Hire for ${new BigNumber(_transaction.price).shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
+            Hire for ${new BigNumber(_transaction.amount).shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
           </a>
         </div>
       </div>
@@ -76,7 +74,9 @@ function transactionTemplate(_transaction) {
 
 
 window.addEventListener('load', async () => {
+  notification('⌛ Loading...')
   await connectCeloWallet()
   await getTransactions()
+  notificationOff()
 
 })
