@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { TRANSACTION_STATUS, pascalToWord } from './utils'
 import './navigation'
 
 import {
@@ -32,7 +33,7 @@ const getTransactions = async function() {
   }
 
   transactions = await Promise.all(_transactions)
-  // console.log('xxx ', transactions)
+  console.log('xxx ', transactions)
   renderTransactions()
 }
 
@@ -51,7 +52,7 @@ function transactionTemplate(_transaction) {
     <div class="card mb-4">
       <img class="card-img-top" src="${_transaction.filePath}" alt="...">
       <div class="position-absolute top-0 end-0 bg-warning mt-4 px-2 py-1 rounded-start">
-        ${_transaction.transCount} Transactions
+        ${pascalToWord(TRANSACTION_STATUS(_transaction.status))}
       </div>
       <div class="card-body text-left p-4 position-relative">
         <h2 class="card-title fs-4 fw-bold mt-2">${_transaction.businessName}</h2>
@@ -60,11 +61,8 @@ function transactionTemplate(_transaction) {
         </p>
       
         <div class="d-grid gap-2">
-          <a class="btn btn-lg btn-outline-dark hireBtn fs-6 p-3" id=${
-    _transaction.index
-  }>
-            
-            Hire for ${new BigNumber(_transaction.amount).shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD
+          <a class="btn btn-lg btn-outline-dark hireBtn fs-6 p-3" id=${_transaction.index}>
+            ${(_transaction.status === 2 || _transaction.status === 3) && 'Confirm Transaction'}
           </a>
         </div>
       </div>

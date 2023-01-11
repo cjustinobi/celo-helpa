@@ -3,7 +3,7 @@ const links = ['jobs', 'transactions']
 function setNavigationElement() {
   links.forEach((item) => {
     const a = document.createElement('p')
-    a.id = item
+    a.id = item + '-link'
     a.innerText = (`my-${item}`).toUpperCase()
     document.getElementById('links').appendChild(a)
   })
@@ -12,11 +12,11 @@ setNavigationElement()
 
 window.addEventListener('load', async () => {
 
-  document.getElementById('jobs').addEventListener('click', () => {
+  document.getElementById('jobs-link').addEventListener('click', () => {
     window.location = 'my-jobs.html'
   })
 
-  document.getElementById('transactions').addEventListener('click', () => {
+  document.getElementById('transactions-link').addEventListener('click', () => {
     window.location = 'my-transactions.html'
   })
 
