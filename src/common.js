@@ -1,9 +1,9 @@
-import Web3 from "web3";
-import {newKitFromWeb3} from "@celo/contractkit";
-import marketplaceAbi from "../contract/Helpa.abi.json";
+import Web3 from 'web3'
+import { newKitFromWeb3 } from '@celo/contractkit'
+import marketplaceAbi from '../contract/Helpa.abi.json'
 
 export const ERC20_DECIMALS = 18
-export const MPContractAddress = '0xA3cAedc72c54Af80e0E6041eCd4a5d00f6B70E4d'
+export const MPContractAddress = '0x45CaAa9e84F3a6f5A7eF31A083FE1cB3aA8B515B'
 export const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
 
 export let kit

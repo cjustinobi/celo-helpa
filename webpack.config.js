@@ -8,8 +8,8 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
     main: path.resolve(process.cwd(), 'src', 'main.js'),
-    jobs: path.resolve(process.cwd(), 'src', 'jobs.js'),
     transactions: path.resolve(process.cwd(), 'src', 'transactions.js'),
+    jobs: path.resolve(process.cwd(), 'src', 'jobs.js'),
   },
   output: {
     path: path.resolve(process.cwd(), 'docs'),

@@ -5,16 +5,85 @@
 				"internalType": "uint256",
 				"name": "_index",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_vendorAddress",
+				"type": "address"
 			}
 		],
-		"name": "buyProduct",
+		"name": "confirmService",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "vendorIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "vendor",
+				"type": "address"
+			}
+		],
+		"name": "createTransaction",
 		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_businessName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_profession",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_filePath",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_price",
+				"type": "uint256"
+			}
+		],
+		"name": "createVendor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "getProductsLength",
+		"name": "getBal",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTransactionCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -31,40 +100,91 @@
 				"internalType": "uint256",
 				"name": "_index",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_customerAddress",
+				"type": "address"
 			}
 		],
-		"name": "readProduct",
+		"name": "getTransactions",
 		"outputs": [
 			{
-				"internalType": "address payable",
-				"name": "",
+				"internalType": "uint256",
+				"name": "transactionIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "vendorIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "vendor",
 				"type": "address"
 			},
 			{
+				"internalType": "address",
+				"name": "customer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum Helpa.Status",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dateCreated",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dateCompleted",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dateReviewing",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
-				"name": "",
+				"name": "filePath",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "businessName",
 				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getVendorCount",
+		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getVendorTransactionCount",
+		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
@@ -77,34 +197,191 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_vendorAddress",
+				"type": "address"
+			}
+		],
+		"name": "getVendorTransactions",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "transactionIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "customer",
+				"type": "address"
+			},
+			{
+				"internalType": "enum Helpa.Status",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dateCreated",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dateCompleted",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getVendors",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "vendorAddress",
+				"type": "address"
+			},
+			{
 				"internalType": "string",
-				"name": "_name",
+				"name": "businessName",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_image",
+				"name": "filePath",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_description",
+				"name": "description",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_location",
+				"name": "profession",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_price",
+				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "transCount",
 				"type": "uint256"
 			}
 		],
-		"name": "writeProduct",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_customerAddress",
+				"type": "address"
+			}
+		],
+		"name": "serviceReviewing",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "tip",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "vendorCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "vendorExists",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]
