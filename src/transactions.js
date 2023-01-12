@@ -61,8 +61,8 @@ function transactionTemplate(_transaction) {
         </p>
       
         <div class="d-grid gap-2">
-          <a class="btn btn-lg btn-outline-dark hireBtn fs-6 p-3" id=${_transaction.index}>
-            ${(_transaction.status === 2 || _transaction.status === 3) && 'Confirm Transaction'}
+          <a class="${_transaction.transactionIndex} btn btn-lg btn-outline-dark updateTransaction fs-6 p-3" id=${_transaction.status}>
+            ${(_transaction.status == 1 || _transaction.status == 2) ? 'Confirm Transaction' : 'Completed'}
           </a>
         </div>
       </div>
@@ -77,4 +77,28 @@ window.addEventListener('load', async () => {
   await getTransactions()
   notificationOff()
 
+})
+
+document.querySelector('#transactions').addEventListener('click', async (e) => {
+  // debugger
+  const el = e.target
+  if (el.className.includes('updateTransaction') && (el.id == '1' || el.id == '2')) {
+
+    notification(`⌛ Awaiting transaction update...`)
+    try {
+      const index = el.classList[0]
+      let cUSDcontract = await kit.contracts.getStableToken()
+
+      const result = await contract.methods
+        .confirmService(index, transactions[index].vendor)
+        .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
+
+      notification(`🎉 You successfully confirmed the transaction`)
+
+      console.log(result)
+
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+  }
 })
