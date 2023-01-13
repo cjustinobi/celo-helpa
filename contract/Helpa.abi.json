@@ -158,6 +158,11 @@
         "internalType": "string",
         "name": "filePath",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "businessName",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -195,6 +200,11 @@
         "internalType": "uint256",
         "name": "_index",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_vendorAddress",
+        "type": "address"
       }
     ],
     "name": "getVendorTransactions",

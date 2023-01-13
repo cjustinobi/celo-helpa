@@ -4,7 +4,7 @@ function setNavigationElement() {
   links.forEach((item) => {
     const a = document.createElement('p')
     a.id = item + '-link'
-    a.innerText = (`my-${item}`).toUpperCase()
+    a.innerText = (`My ${item}`)
     document.getElementById('links').appendChild(a)
   })
 }

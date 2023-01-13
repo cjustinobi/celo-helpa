@@ -39,12 +39,18 @@ console.log('aaaaa ', _transactionLength)
 
 function renderTransactions() {
   document.getElementById('transactions').innerHTML = ''
-  transactions.forEach((_transaction) => {
-    const newDiv = document.createElement('div')
-    newDiv.className = 'col-md-4'
-    newDiv.innerHTML = transactionTemplate(_transaction)
-    document.getElementById('transactions').appendChild(newDiv)
-  })
+
+  if (transactions.length) {
+    transactions.forEach((_transaction) => {
+      const newDiv = document.createElement('div')
+      newDiv.className = 'col-md-4'
+      newDiv.innerHTML = transactionTemplate(_transaction)
+      document.getElementById('transactions').appendChild(newDiv)
+    })
+  } else {
+    document.getElementById('transactions').innerHTML = 'You have no transaction record'
+  }
+
 }
 
 function transactionTemplate(_transaction) {
