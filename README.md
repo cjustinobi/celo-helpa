@@ -1,14 +1,24 @@
-# Celo Marketplace Dapp
-![](https://github.com/dacadeorg/celo-development-101/blob/main/content/gifs/celo_trailer_02.gif)
+# Celo Helpa
 
 ## Description
-This is a very simple marketplace dapp where users can:
-* See products hosted on the Celo Blockchain
-* Purchase products with cUSD and pay the owner
-* Add your own products to the dapp
+Helpa is a marketplace for freelancers and clients. Freelancers showcase their service and clients get to hire them.
+
+Numbers of projects completed from clients would be used as metrics for determining outstanding freelancers.
+
+Freelancers would request for a review from the client after finishing a job. Client hits the approve button for payout to be made to the customer.
+
+Clients and freelancers can see all the records of their transactions and their status respectively.
+
+In the case of dispute, definition of done would be revisited. This feature is beyond the scope of this tutorial though.
+
+* Freelancers can create account
+* Freelancers can view their past jobs
+* Clients can view their past transactions
+* Freelancer can mark transactions as completed for review
+* Clients can approve transactions, afterwards, fund is released for job done.
 
 ## Live Demo
-[Marketplace Dapp](https://dacadeorg.github.io/celo-marketplace-dapp/)
+[Helpa](https://cjustinobi.github.io/celo-helpa/)
 
 ## Usage
 
@@ -17,12 +27,6 @@ This is a very simple marketplace dapp where users can:
 2. Create a wallet.
 3. Go to [https://celo.org/developers/faucet](https://celo.org/developers/faucet) and get tokens for the alfajores testnet.
 4. Switch to the alfajores testnet in the CeloExtensionWallet.
-
-### Test
-1. Create a product.
-2. Create a second account in your extension wallet and send them cUSD tokens.
-3. Buy product with secondary account.
-4. Check if balance of first account increased.
 
 
 ## Project Setup
