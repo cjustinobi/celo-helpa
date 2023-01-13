@@ -17,14 +17,6 @@ import {
 
 let vendors = []
 
-const test = async function() {
-
-  let p = await contract.methods.getBal().call()
-  console.log('jjj ' + p)
-
-}
-
-
 async function approve(_price) {
   const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
@@ -55,7 +47,6 @@ const getVendors = async function() {
   }
 
   vendors = await Promise.all(_vendors)
-  console.log(vendors)
   renderVendors()
 }
 
@@ -122,8 +113,6 @@ window.addEventListener('load', async () => {
   await connectCeloWallet()
   await getBalance()
   await getVendors()
-  await test()
-
   notificationOff()
 });
 
@@ -154,22 +143,17 @@ document
 document.querySelector('#marketplace').addEventListener('click', async (e) => {
   if (e.target.className.includes('hireBtn')) {
     const index = e.target.id
-    // notification('⌛ Waiting for payment approval...')
-    // try {
-    //   await approve(products[index].price)
-    // } catch (error) {
-    //   notification(`⚠️ ${error}.`)
-    // }
-    // return console.log(index)
+
     notification(`⌛ Awaiting payment for '${vendors[index].businessName}'...`)
+
     try {
       let cUSDcontract = await kit.contracts.getStableToken();
       const result = await contract.methods
         .createTransaction(index, vendors[index].vendorAddress)
         .send({ from: kit.defaultAccount, value: vendors[index].price, feeCurrency: cUSDcontract.address })
+
       notification(`🎉 You successfully hired '${vendors[index].businessName}'.`)
 
-      console.log(result)
       getVendors()
       getBalance()
     } catch (error) {

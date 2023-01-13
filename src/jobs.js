@@ -11,12 +11,11 @@ import {
 
 let jobs = []
 
-
 const getJobs = async function() {
 
   const _vendorTransactionLength = await contract.methods.getVendorTransactionCount().call()
   const _jobs = []
-  console.log('aaaaa ', _vendorTransactionLength)
+
   for (let i = 0; i < _vendorTransactionLength; i++) {
 
     let _job = new Promise(async (resolve) => {
@@ -29,7 +28,6 @@ const getJobs = async function() {
   }
 
   jobs = await Promise.all(_jobs)
-  console.log('xxx ', jobs)
   renderJobs()
 }
 

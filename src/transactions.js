@@ -1,11 +1,7 @@
-import BigNumber from 'bignumber.js'
 import { TRANSACTION_STATUS, pascalToWord } from './utils'
 import './navigation'
 
 import {
-  ERC20_DECIMALS,
-  MPContractAddress,
-  cUSDContractAddress,
   connectCeloWallet,
   notification,
   notificationOff,
@@ -20,7 +16,7 @@ const getTransactions = async function() {
 
   const _transactionLength = await contract.methods.getTransactionCount().call()
   const _transactions = []
-console.log('aaaaa ', _transactionLength)
+
   for (let i = 0; i < _transactionLength; i++) {
 
     let _transaction = new Promise(async (resolve) => {
@@ -33,7 +29,6 @@ console.log('aaaaa ', _transactionLength)
   }
 
   transactions = await Promise.all(_transactions)
-  console.log('xxx ', transactions)
   renderTransactions()
 }
 
@@ -101,8 +96,6 @@ if (window.location.pathname === '/my-transactions.html') {
           .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
 
         notification(`🎉 You successfully confirmed the transaction`)
-
-        console.log(result)
 
       } catch (error) {
         notification(`⚠️ ${error}.`)
