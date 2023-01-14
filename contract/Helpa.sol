@@ -1,12 +1,22 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+interface IERC20Token {
+  function transfer(address, uint256) external returns (bool);
+  function approve(address, uint256) external returns (bool);
+  function transferFrom(address, address, uint256) external returns (bool);
+  function totalSupply() external view returns (uint256);
+  function balanceOf(address) external view returns (uint256);
+  function allowance(address, address) external view returns (uint256);
+
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+}
 
 contract Helpa {
 
   uint256 public vendorCount;
+  address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
   enum Status {
     Cancelled,
@@ -65,6 +75,7 @@ contract Helpa {
   ) public {
 
     require(vendorExists[msg.sender] == false, 'Vendor already exists');
+    require(_price > 0, "set price");
 
     uint256 totalAmount;
     uint256 transactionCount;
@@ -82,7 +93,7 @@ contract Helpa {
 
     vendorExists[msg.sender] = true;
 
-    vendorCount ++;
+    vendorCount++;
   }
 
   function createTransaction (
@@ -91,26 +102,20 @@ contract Helpa {
 
   ) public payable {
 
-    require(vendor != msg.sender, "You can't buy your own product");
-
+    require(vendor != msg.sender, "can't buy own product");
+    require(
+      IERC20Token(cUsdTokenAddress).transferFrom(
+        msg.sender,
+        vendors[vendorIndex].vendorAddress,
+        vendors[vendorIndex].price
+      ),
+      "Transfer failed."
+    );
     Status status = Status.InProgress;
     customerTransactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
     vendorTransactions[vendor].push(VendorTransaction(payable(msg.sender), status, block.timestamp, 0));
     transactionCounts[msg.sender] += 1;
     vendorTransactionCounts[vendor] += 1;
-  }
-
-  function serviceReviewing(uint256 _index, address _customerAddress) public {
-    Transaction storage transaction = customerTransactions[_customerAddress][_index];
-    VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
-
-    require(transaction.vendor == msg.sender, "Only the Vendor can confirm service completed");
-    require(transaction.status != Status.Completed, "Only the Customer can confirm service completed");
-
-    transaction.status = Status.Reviewing;
-    transaction.dateReviewing = block.timestamp;
-
-    vendorTransaction.status = Status.Reviewing;
   }
 
   function confirmService(uint256 _index, address _vendorAddress) public {
@@ -119,11 +124,11 @@ contract Helpa {
      VendorTransaction storage vendorTransaction = vendorTransactions[_vendorAddress][_index];
 
     require(transaction.customer == msg.sender, "Only the customer can confirm the service");
-//    require(transaction.status == Status.Completed, "Transaction has been completed already");
+    require(transaction.status == Status.Completed, "Transaction has been completed already");
 
     bool res;
 
-    res = transfer(transaction.vendor, transaction.amount);
+    res = tip(transaction.vendor, transaction.amount);
 
     if(res) {
 
@@ -136,28 +141,38 @@ contract Helpa {
       vendor.totalAmount += transaction.amount;
       vendor.transactionCount ++;
     }
-
   }
 
-  // Function to transfer Ether from this contract to address from input
+  function serviceReviewing(uint256 _index, address _customerAddress) public {
+    Transaction storage transaction = customerTransactions[_customerAddress][_index];
+    VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
 
-  function transfer(address payable _to, uint256 _amount) public returns (bool) {
+    require(transaction.status != Status.Completed, "Only the Customer can confirm service completed");
 
+    transaction.status = Status.Reviewing;
+    transaction.dateReviewing = block.timestamp;
+
+    vendorTransaction.status = Status.Reviewing;
+  }
+
+  function cancel(uint256 _index, address _customerAddress) public {
+    Transaction storage transaction = customerTransactions[_customerAddress][_index];
+    VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
+
+    require(transaction.vendor == msg.sender, "Only the Vendor can confirm service completed");
+    require(transaction.status != Status.Completed, "Only the Customer can confirm service completed");
+
+    transaction.status = Status.Cancelled;
+    vendorTransaction.status = Status.Cancelled;
+  }
+
+  function tip(address payable _to, uint256 _amount) public payable returns(bool) {
     (bool success, ) = _to.call{value: _amount}("");
     require(success, "Failed to send Ether");
     return success;
   }
 
-
-    function tip(address payable _to, uint256 _amount) public payable {
-
-      (bool success, ) = _to.call{value: _amount}("");
-      require(success, "Failed to send Ether");
-    }
-
-
   function getBal() public view returns (uint256) {
-
     return address(this).balance;
   }
 
