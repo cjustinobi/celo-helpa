@@ -6,7 +6,8 @@ import {
   notification,
   notificationOff,
   kit,
-  contract
+  contract,
+  getBalance
 } from './common'
 
 let transactions = []
@@ -33,7 +34,6 @@ const getTransactions = async function() {
 }
 
 function renderTransactions() {
-  document.getElementById('transactions').innerHTML = ''
 
   if (transactions.length) {
     transactions.forEach((_transaction) => {
@@ -57,9 +57,6 @@ function transactionTemplate(_transaction) {
       </div>
       <div class="card-body text-left p-4 position-relative">
         <h2 class="card-title fs-4 fw-bold mt-2">${_transaction.businessName}</h2>
-        <p class="card-text mb-4" style="min-height: 82px">
-          ${_transaction.description}             
-        </p>
       
         <div class="d-grid gap-2">
           <a class="${_transaction.transactionIndex} status-${_transaction.status} btn btn-lg btn-outline-dark updateTransaction fs-6 p-3" id=${_transaction.status}>
@@ -73,10 +70,14 @@ function transactionTemplate(_transaction) {
 
 
 window.addEventListener('load', async () => {
-  notification('⌛ Loading...')
-  await connectCeloWallet()
-  await getTransactions()
-  notificationOff()
+
+  if (window.location.pathname === '/my-transactions.html') {
+    notification('⌛ Loading...')
+    await connectCeloWallet()
+    getBalance()
+    await getTransactions()
+    notificationOff()
+  }
 
 })
 

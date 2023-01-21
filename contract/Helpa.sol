@@ -196,7 +196,8 @@ contract Helpa {
     uint256 dateCreated,
     uint256 dateCompleted,
     uint256 dateReviewing,
-    string memory filePath
+    string memory filePath,
+    string memory businessName
   ) {
 
     Transaction storage transaction = customerTransactions[_customerAddress][_index];
@@ -212,11 +213,12 @@ contract Helpa {
     transaction.dateCreated,
     transaction.dateCompleted,
     transaction.dateReviewing,
-    _vendor.filePath
+    _vendor.filePath,
+    _vendor.businessName
     );
   }
 
-    function getVendorTransactions (uint256 _index) public view returns (
+    function getVendorTransactions (uint256 _index, address _vendorAddress) public view returns (
 
       uint256 transactionIndex,
       address customer,
@@ -225,7 +227,9 @@ contract Helpa {
       uint256 dateCompleted
     ) {
 
-      VendorTransaction storage vendorTransaction = vendorTransactions[msg.sender][_index];
+      require(vendorExists[_vendorAddress] == true, "You are not a vendor");
+
+      VendorTransaction storage vendorTransaction = vendorTransactions[_vendorAddress][_index];
 
       return (
       _index,

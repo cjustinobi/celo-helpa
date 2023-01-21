@@ -12,7 +12,8 @@ import {
   notification,
   notificationOff,
   kit,
-  contract
+  contract,
+  getBalance
 } from './common'
 
 let vendors = []
@@ -24,12 +25,6 @@ async function approve(_price) {
     .approve(MPContractAddress, _price)
     .send({ from: kit.defaultAccount })
   return result
-}
-
-const getBalance = async function () {
-  const totalBalance = await kit.getTotalBalance(kit.defaultAccount)
-  const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2)
-  document.querySelector('#balance').textContent = cUSDBalance
 }
 
 const getVendors = async function() {
@@ -143,6 +138,8 @@ document
 document.querySelector('#marketplace').addEventListener('click', async (e) => {
   if (e.target.className.includes('hireBtn')) {
     const index = e.target.id
+
+    if (!index || !vendors[index].vendorAddress) return notification('Invalid Vendor index or address entered')
 
     notification(`⌛ Awaiting payment for '${vendors[index].businessName}'...`)
 

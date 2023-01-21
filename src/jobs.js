@@ -6,7 +6,8 @@ import {
   notification,
   notificationOff,
   kit,
-  contract
+  contract,
+  getBalance
 } from './common'
 
 let jobs = []
@@ -32,7 +33,7 @@ const getJobs = async function() {
 }
 
 function renderJobs() {
-  document.getElementById('jobs').innerHTML = ''
+
   if (jobs.length) {
     jobs.forEach((_job) => {
       const newDiv = document.createElement('div')
@@ -68,6 +69,7 @@ function jobTemplate(_transaction) {
 window.addEventListener('load', async () => {
   notification('⌛ Loading...')
   await connectCeloWallet()
+  await getBalance()
   await getJobs()
   notificationOff()
 

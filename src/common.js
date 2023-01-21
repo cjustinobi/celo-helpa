@@ -3,7 +3,7 @@ import { newKitFromWeb3 } from '@celo/contractkit'
 import marketplaceAbi from '../contract/Helpa.abi.json'
 
 export const ERC20_DECIMALS = 18
-export const MPContractAddress = '0x45CaAa9e84F3a6f5A7eF31A083FE1cB3aA8B515B'
+export const MPContractAddress = '0x2A3495f82c0e1344e4cEc84E7862021Eff59Ac98'
 export const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
 
 export let kit
@@ -29,6 +29,12 @@ export const connectCeloWallet = async function () {
   } else {
     notification('⚠️ Please install the CeloExtensionWallet.')
   }
+}
+
+export const getBalance = async function () {
+  const totalBalance = await kit.getTotalBalance(kit.defaultAccount)
+  const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+  document.querySelector('#balance').textContent = cUSDBalance
 }
 
 
