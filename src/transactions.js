@@ -83,8 +83,7 @@ window.addEventListener('load', async () => {
 
 })
 
-
-(function () {
+document.addEventListener("DOMContentLoaded", function() {
 
   if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
 
@@ -111,7 +110,12 @@ window.addEventListener('load', async () => {
       }
     }
   })
-})()
+
+})
+
+
+
+
 
 
 
