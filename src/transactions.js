@@ -75,7 +75,9 @@ window.addEventListener('load', async () => {
   notification('⌛ Loading...')
   await connectCeloWallet()
   await getBalance()
-  await getTransactions()
+  if (window.location.pathname == '/my-transactions.html') {
+    await getTransactions()
+  }
   notificationOff()
 
 })
