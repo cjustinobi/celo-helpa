@@ -14,7 +14,7 @@ import {
 let transactions = []
 
 
-const getTransactions = async function() {
+export const getTransactions = async function() {
 debugger
   const _transactionLength = await contract.methods.getTransactionCount().call()
   const _transactions = []
