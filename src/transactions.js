@@ -71,13 +71,11 @@ function transactionTemplate(_transaction) {
 
 window.addEventListener('load', async () => {
 
-  if (window.location.pathname === '/my-transactions.html') {
-    notification('⌛ Loading...')
-    await connectCeloWallet()
-    await getBalance()
-    await getTransactions()
-    notificationOff()
-  }
+  notification('⌛ Loading...')
+  await connectCeloWallet()
+  await getBalance()
+  await getTransactions()
+  notificationOff()
 
 })
 
@@ -97,6 +95,8 @@ if (window.location.pathname === '/my-transactions.html') {
           .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
 
         notification(`🎉 You successfully confirmed the transaction`)
+
+        window.location.reload()
 
       } catch (error) {
         notification(`⚠️ ${error}.`)
