@@ -83,8 +83,11 @@ window.addEventListener('load', async () => {
 
 })
 
-if (window.location.pathname == '/my-transactions.html') {
-debugger
+
+(function () {
+
+  if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
+
   document.querySelector('#transactions').addEventListener('click', async (e) => {
 
     const el = e.target
@@ -97,7 +100,7 @@ debugger
 
         const result = await contract.methods
           .confirmService(index, transactions[index].vendor)
-          .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
+          .send({from: kit.defaultAccount, feeCurrency: cUSDcontract.address})
 
         notification(`🎉 You successfully confirmed the transaction`)
 
@@ -108,8 +111,8 @@ debugger
       }
     }
   })
+})()
 
-}
 
 
 
