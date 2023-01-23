@@ -18,6 +18,8 @@ interface IERC20Token {
 
 contract Helpa {
 
+  bool internal locked;
+
   uint256 public vendorCount;
 
   address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
@@ -172,19 +174,18 @@ contract Helpa {
 
   // Function to transfer Ether from this contract to address from input
 
-  function transfer(address payable _to, uint256 _amount) public returns (bool) {
+  function transfer(address payable _to, uint256 _amount) public noReentrant returns (bool) {
+
+    require(address(this).balance >= _amount && _amount > 0);
 
     require(
-      IERC20Token(cUsdTokenAddress).transferFrom(
-        address(this),
-        _to,
-        _amount
-      ),
-      "Transfer failed."
+		  IERC20Token(cUsdTokenAddress).transfer(
+      _to,
+			_amount
+		  ),
+		  "Transfer failed."
 		);
 
-    // (bool success, ) = _to.call{value: _amount}("");
-    // require(success, "Failed to send Ether");
     bool success = true;
     return success;
   }
@@ -285,4 +286,11 @@ contract Helpa {
   function getVendorCount() public view returns (uint256) {
     return vendorCount;
   }
+
+   modifier noReentrant() {
+        require(!locked, "No re-entrancy");
+        locked = true;
+        _;
+        locked = false;
+    }
 }

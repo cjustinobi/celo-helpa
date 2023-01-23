@@ -1,4 +1,4 @@
-debugger
+
 import { TRANSACTION_STATUS, pascalToWord } from './utils'
 import './navigation'
 
@@ -15,7 +15,7 @@ let transactions = []
 
 
 const getTransactions = async function() {
-
+debugger
   const _transactionLength = await contract.methods.getTransactionCount().call()
   const _transactions = []
 
