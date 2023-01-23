@@ -70,7 +70,7 @@ function transactionTemplate(_transaction) {
 
 
 window.addEventListener('load', async () => {
-
+debugger
   notification('⌛ Loading...')
   await connectCeloWallet()
   await getBalance()
