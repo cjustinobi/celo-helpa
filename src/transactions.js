@@ -35,6 +35,8 @@ const getTransactions = async function() {
 }
 
 function renderTransactions() {
+  if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
+
   document.getElementById('transactions').innerHTML = ''
   if (transactions.length) {
     transactions.forEach((_transaction) => {
@@ -75,9 +77,8 @@ window.addEventListener('load', async () => {
   notification('⌛ Loading...')
   await connectCeloWallet()
   await getBalance()
-  if (window.location.pathname == '/my-transactions.html') {
-    await getTransactions()
-  }
+  await getTransactions()
+
   notificationOff()
 
 })
