@@ -79,7 +79,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.querySelector('#jobs').addEventListener('click', async (e) => {
 
-    if (window.location.pathname == '/my-jobs.html') {
+    if (window.location.pathname.includes('jobs')) {
+
+      debugger
 
       const el = e.target
       if (el.className.includes('markCompleted') && (el.id == '1')) {
