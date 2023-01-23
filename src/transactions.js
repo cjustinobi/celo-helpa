@@ -84,8 +84,7 @@ window.addEventListener('load', async () => {
 })
 
 document.addEventListener("DOMContentLoaded", function() {
-
-  if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
+  if ((window.location.pathname == '/') || (window.location.pathname == '/index.html')) return
 
   document.querySelector('#transactions').addEventListener('click', async (e) => {
 
