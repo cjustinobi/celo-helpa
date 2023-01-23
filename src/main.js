@@ -16,8 +16,6 @@ import {
   getBalance
 } from './common'
 
-import { getTransactions } from './transactions'
-
 let vendors = []
 
 async function approve(_price) {
@@ -110,9 +108,6 @@ window.addEventListener('load', async () => {
   await connectCeloWallet()
   await getBalance()
   await getVendors()
-  if (window.location.pathname === '/my-transactions.html') {
-    await getTransactions()
-  }
   notificationOff()
 });
 
