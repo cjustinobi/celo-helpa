@@ -42,7 +42,7 @@ function renderJobs() {
       document.getElementById('jobs').appendChild(newDiv)
     })
   } else {
-    document.getElementById('jobs').innerHTML = 'Have no job record'
+    document.getElementById('jobs').innerHTML = 'You have no job record'
   }
 
 }

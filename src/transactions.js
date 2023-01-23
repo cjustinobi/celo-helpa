@@ -34,7 +34,7 @@ const getTransactions = async function() {
 }
 
 function renderTransactions() {
-
+  document.getElementById('transactions').innerHTML = ''
   if (transactions.length) {
     transactions.forEach((_transaction) => {
       const newDiv = document.createElement('div')
