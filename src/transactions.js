@@ -84,7 +84,7 @@ window.addEventListener('load', async () => {
 })
 
 if (window.location.pathname == '/my-transactions.html') {
-
+debugger
   document.querySelector('#transactions').addEventListener('click', async (e) => {
 
     const el = e.target
