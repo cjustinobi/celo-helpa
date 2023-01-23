@@ -4,9 +4,23 @@ pragma solidity ^0.8.9;
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
+interface IERC20Token {
+  function transfer(address, uint256) external returns (bool);
+  function approve(address, uint256) external returns (bool);
+  function transferFrom(address, address, uint256) external returns (bool);
+  function totalSupply() external view returns (uint256);
+  function balanceOf(address) external view returns (uint256);
+  function allowance(address, address) external view returns (uint256);
+
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
 contract Helpa {
 
   uint256 public vendorCount;
+
+  address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
   enum Status {
     Cancelled,
@@ -91,7 +105,24 @@ contract Helpa {
 
   ) public payable {
 
+    require(vendorIndex <= vendorCount, "Vendor index does not exist");
+
     require(vendor != msg.sender, "You can't buy your own product");
+
+    Vendor storage _vendor = vendors[vendorIndex];
+
+    require(_vendor.price == msg.value, "Wrong amount entered");
+
+    require(_vendor.vendorAddress == vendor, "Wrong Vendor address entered");
+
+    require(
+		  IERC20Token(cUsdTokenAddress).transferFrom(
+			msg.sender,
+			address(this),
+			msg.value
+		  ),
+		  "Transfer failed."
+		);
 
     Status status = Status.InProgress;
     customerTransactions[msg.sender].push(Transaction(vendorIndex, vendor, payable(msg.sender), msg.value, status, block.timestamp, 0, 0));
@@ -143,17 +174,20 @@ contract Helpa {
 
   function transfer(address payable _to, uint256 _amount) public returns (bool) {
 
-    (bool success, ) = _to.call{value: _amount}("");
-    require(success, "Failed to send Ether");
+    require(
+      IERC20Token(cUsdTokenAddress).transferFrom(
+        address(this),
+        _to,
+        _amount
+      ),
+      "Transfer failed."
+		);
+
+    // (bool success, ) = _to.call{value: _amount}("");
+    // require(success, "Failed to send Ether");
+    bool success = true;
     return success;
   }
-
-
-    function tip(address payable _to, uint256 _amount) public payable {
-
-      (bool success, ) = _to.call{value: _amount}("");
-      require(success, "Failed to send Ether");
-    }
 
 
   function getBal() public view returns (uint256) {

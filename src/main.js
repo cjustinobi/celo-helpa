@@ -144,6 +144,12 @@ document.querySelector('#marketplace').addEventListener('click', async (e) => {
     notification(`⌛ Awaiting payment for '${vendors[index].businessName}'...`)
 
     try {
+      await approve(vendors[index].price)
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+
+    try {
       let cUSDcontract = await kit.contracts.getStableToken();
       const result = await contract.methods
         .createTransaction(index, vendors[index].vendorAddress)

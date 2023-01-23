@@ -33,7 +33,7 @@ const getJobs = async function() {
 }
 
 function renderJobs() {
-
+  document.getElementById('jobs').innerHTML = ''
   if (jobs.length) {
     jobs.forEach((_job) => {
       const newDiv = document.createElement('div')
