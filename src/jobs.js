@@ -57,7 +57,7 @@ function jobTemplate(_transaction) {
       <div class="card-body text-left p-4 position-relative">   
         <div class="d-grid gap-2">
           <a class="${_transaction.transactionIndex} status-${_transaction.status} btn btn-lg btn-outline-dark markCompleted fs-6 p-3" id=${_transaction.status}>
-            ${_transaction.status == 1 ? 'Mark Completed' : _transaction.status == 2 ? 'Reviewing' : 'Completed'}
+            ${_transaction.status == '1' ? 'Mark Completed' : _transaction.status == '2' ? 'Reviewing' : 'Completed'}
           </a>
         </div>
       </div>
@@ -75,8 +75,10 @@ window.addEventListener('load', async () => {
 
 })
 
-if (window.location.pathname === '/my-jobs.html') {
-  document.querySelector('#jobs').addEventListener('click', async (e) => {
+
+document.querySelector('#jobs').addEventListener('click', async (e) => {
+
+  if (window.location.pathname == '/my-jobs.html') {
 
     const el = e.target
     if (el.className.includes('markCompleted') && (el.id == '1')) {
@@ -98,7 +100,7 @@ if (window.location.pathname === '/my-jobs.html') {
         notification(`⚠️ ${error}.`)
       }
     }
-  })
-}
 
+  }
+})
 
