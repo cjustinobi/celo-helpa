@@ -75,32 +75,35 @@ window.addEventListener('load', async () => {
 
 })
 
+document.addEventListener("DOMContentLoaded", function() {
 
-document.querySelector('#jobs').addEventListener('click', async (e) => {
+  document.querySelector('#jobs').addEventListener('click', async (e) => {
 
-  if (window.location.pathname == '/my-jobs.html') {
+    if (window.location.pathname == '/my-jobs.html') {
 
-    const el = e.target
-    if (el.className.includes('markCompleted') && (el.id == '1')) {
+      const el = e.target
+      if (el.className.includes('markCompleted') && (el.id == '1')) {
 
-      notification(`⌛ Awaiting transaction update...`)
-      try {
-        const index = el.classList[0]
-        let cUSDcontract = await kit.contracts.getStableToken()
+        notification(`⌛ Awaiting transaction update...`)
+        try {
+          const index = el.classList[0]
+          let cUSDcontract = await kit.contracts.getStableToken()
 
-        await contract.methods
-          .serviceReviewing(index, jobs[index].customer)
-          .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
+          await contract.methods
+            .serviceReviewing(index, jobs[index].customer)
+            .send({ from: kit.defaultAccount, feeCurrency: cUSDcontract.address })
 
-        notification(`🎉 Transaction sent for review!`)
+          notification(`🎉 Transaction sent for review!`)
 
-        await getJobs()
+          await getJobs()
 
-      } catch (error) {
-        notification(`⚠️ ${error}.`)
+        } catch (error) {
+          notification(`⚠️ ${error}.`)
+        }
       }
-    }
 
-  }
+    }
+  })
+
 })
 
