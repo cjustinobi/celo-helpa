@@ -1,4 +1,4 @@
-import {TRANSACTION_STATUS, pascalToWord, truncateAddr, formatDate} from './utils'
+import {TRANSACTION_STATUS, pascalToWord, truncateAddr} from './utils'
 import './navigation'
 
 import {

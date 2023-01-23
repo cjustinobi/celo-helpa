@@ -157,8 +157,8 @@ document.querySelector('#marketplace').addEventListener('click', async (e) => {
 
       notification(`🎉 You successfully hired '${vendors[index].businessName}'.`)
 
-      getVendors()
-      getBalance()
+      await getVendors()
+      await getBalance()
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
