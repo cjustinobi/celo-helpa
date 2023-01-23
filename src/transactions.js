@@ -1,3 +1,4 @@
+debugger
 import { TRANSACTION_STATUS, pascalToWord } from './utils'
 import './navigation'
 
