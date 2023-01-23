@@ -82,10 +82,10 @@ window.addEventListener('load', async () => {
 
 })
 
+if (window.location.pathname == '/my-transactions.html') {
 
+  document.querySelector('#transactions').addEventListener('click', async (e) => {
 
-document.querySelector('#transactions').addEventListener('click', async (e) => {
-  if (window.location.pathname == '/my-transactions.html') {
     const el = e.target
     if (el.className.includes('updateTransaction') && (el.id == '1' || el.id == '2')) {
 
@@ -106,8 +106,9 @@ document.querySelector('#transactions').addEventListener('click', async (e) => {
         notification(`⚠️ ${error}.`)
       }
     }
-  }
-})
+  })
+
+}
 
 
 
