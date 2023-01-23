@@ -70,13 +70,14 @@ function transactionTemplate(_transaction) {
 
 
 window.addEventListener('load', async () => {
-debugger
-  notification('⌛ Loading...')
-  await connectCeloWallet()
-  await getBalance()
-  await getTransactions()
-  notificationOff()
-
+  if (window.location.pathname === '/my-transactions.html') {
+    debugger
+    notification('⌛ Loading...')
+    await connectCeloWallet()
+    await getBalance()
+    await getTransactions()
+    notificationOff()
+  }
 })
 
 if (window.location.pathname === '/my-transactions.html') {
