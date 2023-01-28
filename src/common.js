@@ -3,7 +3,7 @@ import { newKitFromWeb3 } from '@celo/contractkit'
 import marketplaceAbi from '../contract/Helpa.abi.json'
 
 export const ERC20_DECIMALS = 18
-export const MPContractAddress = '0x30a5C478b4F6471d0d1dd7D08e0026021D5C38ed'
+export const MPContractAddress = '0xB0e973B83a7bA511aE61801A49Dd0Cd0e496191F'
 export const cUSDContractAddress = '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'
 
 export let kit

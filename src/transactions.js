@@ -37,7 +37,7 @@ const getTransactions = async function() {
 function renderTransactions() {
   if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
 
-  document.getElementById('transactions').innerHTML = ''
+  // document.getElementById('transactions').innerHTML = ''
   if (transactions.length) {
     transactions.forEach((_transaction) => {
       const newDiv = document.createElement('div')
