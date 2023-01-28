@@ -156,7 +156,7 @@ contract Helpa {
 
     bool res;
 
-    res = transfer(transaction.vendor, transaction.amount);
+    res = transferToVendor(transaction.vendor, transaction.amount);
 
     if(res) {
 
@@ -174,7 +174,7 @@ contract Helpa {
 
   // Function to transfer Ether from this contract to address from input
 
-  function transfer(address payable _to, uint256 _amount) public noReentrant returns (bool) {
+  function transferToVendor(address payable _to, uint256 _amount) public noReentrant returns (bool) {
 
     require(address(this).balance >= _amount && _amount > 0);
 

@@ -81,8 +81,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (window.location.pathname.includes('jobs')) {
 
-      debugger
-
       const el = e.target
       if (el.className.includes('markCompleted') && (el.id == '1')) {
 
