@@ -35,6 +35,7 @@ const getTransactions = async function() {
 }
 
 function renderTransactions() {
+  console.log(window.location.pathname)
   if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
 
   // document.getElementById('transactions').innerHTML = ''
@@ -45,8 +46,6 @@ function renderTransactions() {
       newDiv.innerHTML = transactionTemplate(_transaction)
       document.getElementById('transactions').appendChild(newDiv)
     })
-  } else {
-    document.getElementById('transactions').innerHTML = 'You have no transaction record'
   }
 
 }
