@@ -152,8 +152,8 @@ document.querySelector('#marketplace').addEventListener('click', async (e) => {
     try {
 
       const result = await contract.methods
-        .createTransaction(index, vendors[index].vendorAddress)
-        .send({ from: kit.defaultAccount, value: vendors[index].price })
+        .createTransaction(index, vendors[index].vendorAddress, vendors[index].price)
+        .send({ from: kit.defaultAccount })
 
       notification(`🎉 You successfully hired '${vendors[index].businessName}'.`)
 

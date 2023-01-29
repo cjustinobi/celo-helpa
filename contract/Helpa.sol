@@ -103,7 +103,8 @@ contract Helpa {
 
   function createTransaction (
     uint256 vendorIndex,
-    address payable vendor
+    address payable vendor,
+    uint256 amount
 
   ) public payable {
 
@@ -113,7 +114,7 @@ contract Helpa {
 
     Vendor storage _vendor = vendors[vendorIndex];
 
-    require(_vendor.price == msg.value, "Wrong amount entered");
+    require(_vendor.price == amount, "Wrong amount entered");
 
     require(_vendor.vendorAddress == vendor, "Wrong Vendor address entered");
 
@@ -152,7 +153,7 @@ contract Helpa {
      VendorTransaction storage vendorTransaction = vendorTransactions[_vendorAddress][_index];
 
     require(transaction.customer == msg.sender, "Only the customer can confirm the service");
-//    require(transaction.status == Status.Completed, "Transaction has been completed already");
+    require((transaction.status == Status.Reviewing) || (transaction.status == Status.InProgress), "Transaction has been completed already");
 
     bool res;
 
