@@ -35,7 +35,7 @@ const getTransactions = async function() {
 }
 
 function renderTransactions() {
-  console.log(window.location.pathname)
+
   if (window.location.pathname == '/' || window.location.pathname == '/index.html') return
 
   // document.getElementById('transactions').innerHTML = ''
@@ -83,32 +83,33 @@ window.addEventListener('load', async () => {
 })
 
 document.addEventListener("DOMContentLoaded", function() {
-  if ((window.location.pathname == '/') || (window.location.pathname == '/index.html')) return
 
-  document.querySelector('#transactions').addEventListener('click', async (e) => {
+  if ((window.location.pathname !== '/celo-helpa/') || (window.location.pathname !== '/celo-helpa/index.html')) {
 
-    const el = e.target
-    if (el.className.includes('updateTransaction') && (el.id == '1' || el.id == '2')) {
+    document.querySelector('#transactions').addEventListener('click', async (e) => {
 
-      notification(`⌛ Awaiting transaction update...`)
-      try {
-        const index = el.classList[0]
-        let cUSDcontract = await kit.contracts.getStableToken()
+      const el = e.target
+      if (el.className.includes('updateTransaction') && (el.id == '1' || el.id == '2')) {
 
-        const result = await contract.methods
-          .confirmService(index, transactions[index].vendor)
-          .send({from: kit.defaultAccount, feeCurrency: cUSDcontract.address})
+        notification(`⌛ Awaiting transaction update...`)
+        try {
+          const index = el.classList[0]
+          let cUSDcontract = await kit.contracts.getStableToken()
 
-        notification(`🎉 You successfully confirmed the transaction`)
+          const result = await contract.methods
+            .confirmService(index, transactions[index].vendor)
+            .send({from: kit.defaultAccount, feeCurrency: cUSDcontract.address})
 
-        window.location.reload()
+          notification(`🎉 You successfully confirmed the transaction`)
 
-      } catch (error) {
-        notification(`⚠️ ${error}.`)
+          window.location.reload()
+
+        } catch (error) {
+          notification(`⚠️ ${error}.`)
+        }
       }
-    }
-  })
-
+    })
+  }
 })
 
 
